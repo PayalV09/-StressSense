@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stress Assessment</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/data_collection.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2>Stress Assessment</h2>
+
+    <form id="stressForm" method="POST" onsubmit="predictStress(event)">
+      
+      <!-- Mood Input -->
+      <label for="mood">Mood:</label>
+      <select id="mood" name="mood" onchange="toggleMoodInput()" required>
+        <option value="happy">Happy</option>
+        <option value="good">Good</option>
+        <option value="anxious">Anxious</option>
+        <option value="sad">Sad</option>
+        <option value="stressed">Stressed</option>
+        <option value="other">Other</option>
+      </select>
+
+      <div id="otherMoodDiv" style="display: none;">
+        <label for="otherMood">Enter Mood:</label>
+        <input type="text" id="otherMood" name="otherMood" placeholder="Enter your mood">
+      </div>
+
+      <label for="sleepHours">Sleep Hours (1–24):</label>
+      <input type="number" id="sleepHours" name="sleepHours" min="1" max="24" required>
+
+      <label for="coffee">Cups of Coffee/Tea per Day (0–20):</label>
+      <input type="number" id="coffee" name="coffee" min="0" max="20" required>
+
+      <label for="waterIntake">Water Intake (Glasses per Day 0–20):</label>
+      <input type="number" id="waterIntake" name="waterIntake" min="0" max="20" required>
+
+      <label for="activities">Daily Activities:</label>
+      <input type="text" id="activities" name="activities" placeholder="e.g., gym, reading, walking, coding, watching TV" required>
+
+      <label for="occupation">Are you a student or working professional?</label>
+      <select id="occupation" name="occupation" onchange="toggleWorkStudyHours()" required>
+        <option value="">-- Select --</option>
+        <option value="student">Student</option>
+        <option value="working">Working Professional</option>
+      </select>
+
+      <div id="workStudyHours" style="display: none;">
+        <label for="workHours">Hours Spent on Study/Work Per Day (0–24):</label>
+        <input type="number" id="workHours" name="workHours" min="0" max="24">
+      </div>
+
+      <label for="feelings">Additional Feelings (Optional):</label>
+      <textarea id="feelings" name="feelings" rows="3" placeholder="Describe how you're feeling today..."></textarea>
+
+      <button type="submit" id="predictBtn">Predict Stress</button>
+    </form>
+    
+
+    <div id="messageBox"></div>
+  </div>
+
+  <script>
+    function toggleMoodInput() {
+      const mood = document.getElementById("mood").value;
+      const otherMoodDiv = document.getElementById("otherMoodDiv");
+      const otherMoodInput = document.getElementById("otherMood");
+
+      if (mood === "other") {
+        otherMoodDiv.style.display = "block";
+        otherMoodInput.required = true;
+      } else {
+        otherMoodDiv.style.display = "none";
+        otherMoodInput.required = false;
+      }
+    }
+
+    function toggleWorkStudyHours() {
+      const occupation = document.getElementById("occupation").value;
+      const workStudyHoursDiv = document.getElementById("workStudyHours");
+
+      if (occupation === "student" || occupation === "working") {
+        workStudyHoursDiv.style.display = "block";
+      } else {
+        workStudyHoursDiv.style.display = "none";
+      }
+    }
+
+    async function predictStress(event) {
+      event.preventDefault();
+
+      const sleepHours = parseInt(document.getElementById("sleepHours").value);
+      const coffee = parseInt(document.getElementById("coffee").value);
+      const waterIntake = parseInt(document.getElementById("waterIntake").value);
+      const workHours = parseInt(document.getElementById("workHours").value || 0);
+
+      if (isNaN(sleepHours) || sleepHours < 1 || sleepHours > 24) {
+        alert("Sleep hours must be between 1 and 24.");
+        return false;
+      }
+      if (isNaN(coffee) || coffee < 0 || coffee > 20) {
+        alert("Coffee/Tea must be between 0 and 20 cups.");
+        return false;
+      }
+      if (isNaN(waterIntake) || waterIntake < 0 || waterIntake > 20) {
+        alert("Water intake must be between 0 and 20 glasses.");
+        return false;
+      }
+      if (workHours < 0 || workHours > 24) {
+        alert("Work/Study hours must be between 0 and 24.");
+        return false;
+      }
+
+      const form = document.getElementById("stressForm");
+      const formData = new FormData(form);
+
+      // Replace mood with custom input if "other" is selected
+      const mood = document.getElementById("mood").value;
+      if (mood === "other") {
+        const otherMood = document.getElementById("otherMood").value;
+        formData.set("mood", otherMood);
+      }
+
+      try {
+        const response = await fetch("/predict-stress", {
+          method: "POST",
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          window.location.href = `/prediction?level=${result.stress_level}&class=${result.stress_class}`;
+        } else {
+          document.getElementById("messageBox").innerHTML = `<p style="color:red;">Failed to predict stress level.</p>`;
+        }
+      } catch (error) {
+        console.error(error);
+        document.getElementById("messageBox").innerHTML = `<p style="color:red;">Error connecting to server.</p>`;
+      }
+    }
+  </script>
+</body>
+</html>

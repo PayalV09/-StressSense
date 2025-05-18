@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('stress_management') }}">Home</a></li>
+                <li><a href="{{ url_for('data_collection') }}">Submit Data</a></li>
+                <li><a href="{{ url_for('visualize_dashboard') }}">View Reports</a></li>
+                <li><a href="{{ url_for('recommendations') }}">Recommendations</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Welcome to Stress Management</h1>
+        <p>Monitor your stress levels and receive recommendations to improve your mental well-being.</p>
+
+        {% if stress_records %}
+            <h2>Your Previous Stress Records</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Record ID</th>
+                        <th>Stress Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in stress_records %}
+                    <tr>
+                        <td>{{ record.id }}</td>
+                        <td>{{ record.stress_level }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No stress records found. Submit your data to begin tracking.</p>
+        {% endif %}
+
+        <div class="buttons">
+            <a href="{{ url_for('data_collection') }}" class="btn">Submit New Data</a>
+            <a href="{{ url_for('visualize_dashboard') }}" class="btn">View Reports</a>
+            <a href="{{ url_for('recommendations') }}" class="btn">Get Recommendations</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Stress Sense. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

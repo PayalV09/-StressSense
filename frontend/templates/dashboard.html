@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Other Stress Trends</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script> <!-- ✅ Added adapter for time -->
+<style>
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 charts per row */
+    gap: 40px; /* Gap between both rows and columns */
+    margin: 40px auto; /* Margin around the grid */
+    max-width: 1200px;
+}
+
+/* Chart container styling */
+.chart-box {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    text-align: center;
+    transition: transform 0.3s ease;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chart-box:hover {
+    transform: scale(1.03);
+}
+
+.chart-title {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    color: #ffc300;
+}
+
+canvas {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+        
+</style>
+        
+    </head>
+<body>
+    <div class="container">
+        <h1>Your Stress Dashboard</h1>
+
+        <!-- Grid for Charts -->
+<div class="grid-container">
+    <!-- Chart 1: Stress Level Over Time (Line Chart) -->
+    <div class="chart-box">
+        <canvas id="stressTrendChart" width="600" height="400"></canvas>
+        <p class="chart-title">Stress Level Over Time</p>
+    </div>
+
+    <!-- Chart 2: Stress Level Distribution (Bar Chart) -->
+    <div class="chart-box">
+        <canvas id="barChart"></canvas>
+        <p class="chart-title">Stress Level Distribution</p>
+    </div>
+
+    <!-- Chart 3: Stress Category Proportion (Pie Chart) -->
+    <div class="chart-box">
+        <canvas id="pieChart"></canvas>
+        <p class="chart-title">Stress Category Proportion</p>
+    </div>
+
+    <!-- Chart 4: Stress Level vs Time (Scatter Plot) -->
+    <div class="chart-box">
+        <canvas id="scatterPlot"></canvas>
+        <p class="chart-title">Stress Level vs Time</p>
+    </div>
+
+    <!-- Chart 5: Mental Stress Factors (Radar Chart) -->
+    <div class="chart-box">
+        <canvas id="mentalMap"></canvas>
+        <p class="chart-title">Mental Stress Factors</p>
+    </div>
+
+    <!-- Chart 6: Stress Prediction Summary (Doughnut Chart) -->
+    <div class="chart-box">
+        <canvas id="predictionChart"></canvas>
+        <p class="chart-title">Stress Prediction Summary</p>
+    </div>
+</div>
+
+        <!-- Summary Section -->
+        {% if records %}
+        <div class="summary">
+            <h2>Insights:</h2>
+            <ul>
+                <li>Total Records: {{ records | length }}</li>
+                <li>Latest Stress Category: 
+                    {% set lvl = records[-1].stress_level %}
+                    {% if lvl >= 7 %} High 
+                    {% elif lvl >= 4 %} Moderate 
+                    {% elif lvl >= 1 %} Low 
+                    {% else %} None {% endif %}
+                </li>
+                <li>Latest Stress Level: {{ records[-1].stress_level }}</li>
+                <li>Last Entry: {{ records[-1].timestamp or 'N/A' }}</li>
+                <li>Average Stress Level: 
+                    {{ "%.2f"|format(records | map(attribute='stress_level') | sum / records | length) }}
+                </li>
+            </ul>
+        </div>
+        {% else %}
+        <p>No stress data available. Please submit your data.</p>
+        {% endif %}
+
+        <div class="btn-group">
+            <a href="{{ url_for('data_collection') }}" class="btn">Submit New Entry</a>
+            <a href="{{ url_for('recommendations') }}" class="btn">Get Personalized Recommendations</a>
+        </div>
+    </div>
+
+    <!-- JSON Data Injection for Charts -->
+    {% if records_json %}
+    <script id="records-data" type="application/json">
+        {{ records_json | tojson | safe }}
+    </script>
+
+    <script>
+        const records = JSON.parse(document.getElementById('records-data').textContent);
+        const timestamps = records.map(r => r.timestamp);
+        const stressLevels = records.map(r => r.stress_level);
+        const stressCategories = records.map(r => r.level);
+
+        const colorPalette = [
+            'rgba(238, 155, 0, 0.8)',  // golden-orange
+            'rgba(0, 95, 115, 0.8)',   // dark teal
+            'rgba(0, 44, 62, 0.8)',    // deep blue
+            'rgba(255, 195, 0, 0.8)'   // light golden
+        ];
+
+
+
+// Chart 1: Stress Level Over Time (Line Chart)
+new Chart(document.getElementById('stressTrendChart'), {
+    type: 'line',
+    data: {
+        labels: timestamps,
+        datasets: [{
+            label: 'Stress Level Over Time',
+            data: stressLevels,
+            fill: false,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.3,
+            pointRadius: 5
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#ffffff' // Set legend text to white
+                }
+            }
+        },
+        scales: {
+            y: {
+                title: {
+                    display: true,
+                    text: 'Stress Level',
+                    color: '#ffffff',
+                    font: {
+                        weight: 'bold' // Bold font for Y-axis title
+                    }
+                },
+                ticks: {
+                    color: '#ffffff' // Set Y-axis labels to white
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Date & Time',
+                    color: '#ffffff',
+                    font: {
+                        weight: 'bold' // Bold font for X-axis title
+                    }
+                },
+                ticks: {
+                    color: '#ffffff' // Set X-axis labels to white
+                }
+            }
+        }
+    }
+});
+
+// Chart 2: Stress Level Distribution (Bar Chart)
+new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+        labels: timestamps,
+        datasets: [{
+            label: 'Stress Level',
+            data: stressLevels,
+            backgroundColor: colorPalette[0],
+            borderRadius: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#ffffff' // Set legend text to white
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#ffffff' // Set X-axis labels to white
+                }
+            },
+            y: {
+                ticks: {
+                    color: '#ffffff' // Set Y-axis labels to white
+                }
+            }
+        }
+    }
+});
+
+// Chart 3: Stress Category Proportion (Pie Chart)
+const categoryCount = {};
+stressCategories.forEach(level => {
+    categoryCount[level] = (categoryCount[level] || 0) + 1;
+});
+
+new Chart(document.getElementById('pieChart'), {
+    type: 'pie',
+    data: {
+        labels: Object.keys(categoryCount),
+        datasets: [{
+            data: Object.values(categoryCount),
+            backgroundColor: colorPalette
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#ffffff' // Set legend text to white
+                }
+            }
+        }
+    }
+});
+
+// Chart 4: Stress Level vs Time (Scatter Plot)
+new Chart(document.getElementById('scatterPlot'), {
+    type: 'scatter',
+    data: {
+        datasets: [{
+            label: 'Stress Level vs Time',
+            data: timestamps.map((time, index) => ({
+                x: new Date(time),
+                y: stressLevels[index]
+            })),
+            backgroundColor: 'rgba(0, 255, 0, 0.6)',
+            borderColor: 'rgba(0, 255, 0, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#ffffff' // Set legend text to white
+                }
+            }
+        },
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit: 'minute'
+                },
+                ticks: {
+                    color: '#ffffff' // Set X-axis labels to white
+                }
+            },
+            y: {
+                ticks: {
+                    color: '#ffffff' // Set Y-axis labels to white
+                }
+            }
+        }
+    }
+});
+
+// Chart 5: Mental Stress Factors (Radar Chart)
+new Chart(document.getElementById('mentalMap'), {
+    type: 'radar',
+    data: {
+        labels: ['Mood', 'Sleep Hours', 'Cups of Coffee/Tea', 'Water Intake', 'Daily Activities'],
+        datasets: [{
+            label: 'Mental Stress Factors',
+            data: [3, 4, 5, 2, 3], // Dummy data for now
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#ffffff' // Set legend text to white
+                }
+            }
+        },
+        scales: {
+            r: {
+                ticks: {
+                    color: '#ffffff' // Set radar chart ticks to white
+                },
+                pointLabels: {
+                    color: '#ffffff' // Set radar chart point labels to white
+                }
+            }
+        }
+    }
+});
+
+// Doughnut Chart Sample Data
+const predictionLabels = ['High Risk', 'Moderate Risk', 'Low Risk'];
+const predictionData = [30, 45, 25]; // Replace with actual prediction values if dynamic
+
+new Chart(document.getElementById('predictionChart'), {
+    type: 'doughnut',
+    data: {
+        labels: predictionLabels,
+        datasets: [{
+            data: predictionData,
+            backgroundColor: colorPalette // Use the same color palette
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#ffffff' // Set legend text to white
+                }
+            }
+        }
+    }
+});
+
+
+
+    </script>
+    {% endif %}
+</body>
+</html>

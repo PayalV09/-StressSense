@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Personalized Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #005f73, #002c3e);
+            padding: 2rem;
+        }
+    
+        .container {
+            max-width: 1000px; /* Increased from 800px */
+            margin: auto;
+        }
+    
+        .subheading {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+    
+        .recommendation-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem; /* Larger padding */
+            margin-bottom: 2rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            color: #373e3f; /* White text inside the card for contrast */
+            font-size: 1.15rem;
+        }
+    
+        .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+    
+        .section-icon {
+            width: 80px; /* Fixed large size */
+            height: 80px;
+            margin-right: 1.5rem;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #ee9b00;
+        }
+    
+        h1, h2 {
+            color: #ee9b00;
+        }
+    
+        .btn-group {
+            text-align: center;
+            margin-top: 2rem;
+        }
+    
+        .btn {
+            background-color: #ee9b00;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: background 0.3s;
+        }
+    
+        .btn:hover {
+            background-color: #313030;
+        }
+    </style>
+    
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Stress Level: {{ stress_level }}</h1>
+        <p class="subheading">Here are your personalized recommendations based on your current stress level.</p>
+
+        {% if recommendations.relaxation_techniques %}
+        <div class="recommendation-card">
+            <div class="section-title">
+                {% if 'deep breathing' in recommendations.relaxation_techniques.lower() %}
+                    <img src="{{ url_for('static', filename='images/deep_breathing.jpg') }}" alt="Deep Breathing" class="section-icon">
+                {% elif 'light meditation' in recommendations.relaxation_techniques.lower() %}
+                    <img src="{{ url_for('static', filename='images/light_meditation.jpg') }}" alt="Light Meditation" class="section-icon">
+                {% elif 'mindfulness' in recommendations.relaxation_techniques.lower() %}
+                    <img src="{{ url_for('static', filename='images/mindfulness.jpg') }}" alt="Mindfulness" class="section-icon">
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/relaxation-techniques.jpg') }}" alt="Relaxation" class="section-icon">
+                {% endif %}
+                <h2>Relaxation Techniques</h2>
+            </div>
+            <p>{{ recommendations.relaxation_techniques }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if recommendations.healthy_lifestyle %}
+        <div class="recommendation-card">
+            <div class="section-title">
+                {% if 'exercise' in recommendations.healthy_lifestyle.lower() %}
+                    <img src="{{ url_for('static', filename='images/exercise.jpg') }}" alt="Exercise" class="section-icon">
+                {% elif 'diet' in recommendations.healthy_lifestyle.lower() %}
+                    <img src="{{ url_for('static', filename='images/balanced_diet.jpg') }}" alt="Balanced Diet" class="section-icon">
+                {% elif 'hydrated' in recommendations.healthy_lifestyle.lower() %}
+                    <img src="{{ url_for('static', filename='images/hydration.jpg') }}" alt="Stay Hydrated" class="section-icon">
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/healthy-lifestyle.png') }}" alt="Healthy Lifestyle" class="section-icon">
+                {% endif %}
+                <h2>Healthy Lifestyle</h2>
+            </div>
+            <p>{{ recommendations.healthy_lifestyle }}</p>
+        </div>
+        {% endif %}
+
+        <div class="btn-group">
+            <a href="{{ url_for('dashboard') }}" class="btn">← Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

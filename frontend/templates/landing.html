@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stress Sense - AI-Powered Stress Management</title>
+
+  <!-- External Styles and Fonts -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}" />
+  <script defer src="{{ url_for('static', filename='js/landing.js') }}"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar">
+      <div class="container">
+        <div class="logo">
+          <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Stress Sense Logo" />
+          <span>Stress Sense</span>
+        </div>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="{{ url_for('admin_login') }}">Admin</a></li>
+        </ul>
+        <div class="auth-buttons">
+          <a href="{{ url_for('login') }}" class="btn login-btn">Login</a>
+          <a href="{{ url_for('signup') }}" class="btn signup-btn">Sign Up</a>
+        </div>
+        <div class="menu-toggle" aria-label="Toggle navigation">&#9776;</div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="overlay"></div>
+    <div class="container">
+      <h1>Your AI-Powered Stress Management Solution</h1>
+      <p>Monitor, analyze, and reduce stress with intelligent insights tailored for you.</p>
+      <a href="#about" class="btn">Learn More</a>
+    </div>
+  </section>
+
+  <!-- Introduction -->
+  <section class="introduction">
+    <div class="container">
+      <h2>Welcome to Stress Sense – Your AI-Powered Stress Management Solution</h2>
+      <p>Struggling with stress? Stress Sense is here to help! Our AI-driven platform monitors your stress levels, analyzes patterns, and provides personalized insights to improve your well-being.</p>
+      <p>With real-time recommendations, mindfulness techniques, and easy-to-use tools, managing stress has never been easier. Whether you're a student, professional, or just looking for better balance, our technology-driven approach empowers you to take control of your mental health.</p>
+      <p>Start your journey towards a stress-free life today!</p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about">
+    <div class="container">
+      <h2>About Stress Sense</h2>
+      <p>Stress Sense is an innovative AI-powered platform designed to help users monitor, track, and reduce stress effectively. We integrate advanced analytics and AI-driven insights to provide real-time well-being assessments and recommendations.</p>
+      <p>Our mission is to enhance mental health by offering stress management techniques, empowering individuals to lead a balanced and stress-free life.</p>
+      <img src="{{ url_for('static', filename='images/about-professional.png') }}" alt="About Stress Sense" />
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="services">
+    <div class="container">
+      <h2>Our Services</h2>
+      <div class="service-grid">
+        <div class="service-item">
+          <img src="{{ url_for('static', filename='images/stress-monitoring.jpg') }}" alt="Stress Monitoring" />
+          <div class="service-content">
+            <h3>Stress Monitoring</h3>
+            <p>Track your daily stress levels with AI-driven analytics and personalized assessments.</p>
+          </div>
+        </div>
+
+        <div class="service-item">
+          <img src="{{ url_for('static', filename='images/personal-insights.jpg') }}" alt="Personalized Insights" />
+          <div class="service-content">
+            <h3>Personalized Insights</h3>
+            <p>Understand your stress patterns with real-time data and get AI-powered insights for better well-being.</p>
+          </div>
+        </div>
+
+        <div class="service-item">
+          <img src="{{ url_for('static', filename='images/relaxation-techniques.jpg') }}" alt="Relaxation Techniques" />
+          <div class="service-content">
+            <h3>Relaxation Techniques</h3>
+            <p>Learn and practice meditation, breathing exercises, and mindfulness to reduce stress effectively.</p>
+          </div>
+        </div>
+
+        <div class="service-item">
+          <img src="{{ url_for('static', filename='images/healthy-lifestyle.png') }}" alt="Healthy Lifestyle Suggestions" />
+          <div class="service-content">
+            <h3>Healthy Lifestyle Suggestions</h3>
+            <p>Receive daily wellness tips, sleep improvement strategies, and exercise recommendations tailored to your needs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2>Contact Us</h2>
+      <p>Have questions? Reach out to us!</p>
+      <form action="/contact" method="POST" class="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+      <p>Email: <a href="mailto:support@stresssense.com">support@stresssense.com</a> | Phone: +91 801 022 7762</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+        <a href="{{ url_for('privacy_policy') }}" target="_blank">Privacy Policy</a>
+      </div>
+      <p>&copy; 2025 Stress Sense. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

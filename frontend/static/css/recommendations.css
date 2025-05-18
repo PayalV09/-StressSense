@@ -1,0 +1,241 @@
+/* Base Styles */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #005f73, #002c3e);
+    margin: 0;
+    padding: 20px;
+    color: #ffffff;
+    transition: all 0.3s ease-in-out;
+}
+
+/* General Page Styles */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Scrollable Image Gallery */
+.scroll-gallery {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem; /* Increased space between images */
+    padding: 10px 0;
+    scroll-snap-type: x mandatory;
+}
+
+.scroll-gallery::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scroll-gallery::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+.scroll-image {
+    flex: 0 0 auto;
+    width: 250px; /* Fixed width for consistency */
+    height: 150px; /* Fixed height for consistency */
+    border-radius: 10px;
+    scroll-snap-align: start;
+    object-fit: cover; /* Ensure images fit in the container without distortion */
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-image:hover {
+    transform: scale(1.05);
+}
+
+/* Hover Effect for Container */
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+}
+
+/* Heading Styles */
+h1 {
+    font-size: 2.5rem;
+    color: #ee9b00;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.subheading {
+    font-size: 1.2rem;
+    color: #bbbbbb;
+    text-align: center;
+    margin-top: -10px;
+    animation: fadeIn 1s ease-in-out 0.5s;
+}
+
+/* Section Titles */
+.section-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-icon {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+    transition: transform 0.3s ease;
+}
+
+.section-icon:hover {
+    transform: scale(1.1);
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #ee9b00;
+    margin-bottom: 10px;
+    animation: fadeIn 1s ease-in-out 0.8s;
+}
+
+/* Card Styles for Each Section */
+.recommendation-card {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: slideUp 0.6s ease-in-out;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.recommendation-card ul {
+    margin-top: 10px;
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.recommendation-card ul li {
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    text-decoration: none;
+    color: #ffffff;
+    background: #ee9b00;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 20px;
+    text-align: center;
+    display: block;
+    width: auto;
+    animation: fadeIn 1s ease-in-out 1.2s;
+}
+
+.btn:hover {
+    background: #ffc300;
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+a {
+    text-align: center;
+    display: block;
+}
+
+/* Chart Section */
+.chart-section {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.chart-box {
+    flex: 1;
+    min-width: 400px;
+}
+
+/* Summary Section */
+.summary h2 {
+    color: #ee9b00;
+    margin-bottom: 10px;
+    animation: fadeIn 1s ease-in-out 1.4s;
+}
+
+.summary ul {
+    list-style: none;
+    padding: 0;
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+/* Buttons Group */
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+/* Chart Canvas */
+canvas {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .chart-box {
+        min-width: 300px;
+    }
+
+    /* Ensure images don't stretch out of bounds */
+    .scroll-image {
+        width: 180px;
+        height: 120px;
+    }
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

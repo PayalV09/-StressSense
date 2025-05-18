@@ -1,0 +1,35 @@
+    <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Admin Login</title>
+            <!-- Link to your CSS file -->
+           
+        <link rel="stylesheet" href="../static/css/admin.css">        <!-- Add Poppins font -->
+
+            <!-- Add Poppins font -->
+            <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+        </head>
+        <body>
+            <div class="auth-container">
+                <div class="form-box">
+                    <h2>Admin Login</h2>
+                    <p class="subtitle">Welcome back, Admin!</p>
+                    <form method="POST" action="{{ url_for('admin_login') }}"> <!-- Use url_for to handle the route -->
+                        <div class="input-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn">Login</button>
+                    </form>
+        
+                    <p class="switch-link">Not an admin? <a href="{{ url_for('login') }}">Go to User Login</a></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        

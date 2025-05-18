@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction | Stress Sense</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/predict.css') }}">
+</head>
+<body class="result-page">
+<body>
+    <div class="prediction-container">
+        <div class="result-box">
+            <h2>Stress Prediction Result</h2>
+
+            {% if stress_level %}
+                <p class="score-text">Your stress score is <strong>{{ score }}</strong></p>
+                <h3 class="stress-level {{ stress_level.lower() }}">Stress Level: {{ stress_level }}</h3>
+
+                {% if stress_level.lower() == 'high' %}
+                    <p class="tip visible">🚨 Take a break, breathe, or talk to someone. 🌿</p>
+                {% elif stress_level.lower() == 'moderate' %}
+                    <p class="tip visible">😌 You’re managing well. Keep balancing! 😊</p>
+                {% elif stress_level.lower() == 'low' %}
+                    <p class="tip visible">🎉 Great! Keep up the positive habits. 💪</p>
+                {% endif %}
+            {% else %}
+                <p class="error">⚠️ No stress level detected. Please try again.</p>
+            {% endif %}
+
+            <div class="btn-group">
+                <a href="{{ url_for('data_collection') }}" class="btn">🔁 Submit Again</a>
+                <a href="{{ url_for('dashboard') }}" class="btn">📊 View Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS File -->
+    <script src="{{ url_for('static', filename='js/prediction.js') }}"></script>
+</body>
+</html>

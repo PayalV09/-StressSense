@@ -1,0 +1,111 @@
+/* Base Styles */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #005f73, #002c3e);
+    margin: 0;
+    padding: 20px;
+    color: #ffffff;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Dashboard Container */
+.container {
+    max-width: 1000px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s ease;
+}
+
+/* Heading */
+h1 {
+    text-align: center;
+    color: #ee9b00;
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+}
+.chart-square {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 10px;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+
+/* Chart Section */
+.chart-section {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.chart-box {
+    flex: 1;
+    min-width: 400px;
+}
+
+/* Summary Section */
+.summary h2 {
+    color: #ee9b00;
+    margin-bottom: 10px;
+}
+
+.summary ul {
+    list-style: none;
+    padding: 0;
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+/* Buttons */
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 12px 24px;
+    text-decoration: none;
+    color: #ffffff;
+    background: #ee9b00;
+    border-radius: 8px;
+    transition: 0.3s ease, transform 0.2s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    font-size: 16px;  /* Font size for the buttons */
+    text-align: center;
+    flex: 1;  /* Ensures both buttons have equal width */
+    margin: 0 5px;  /* Space between the buttons */
+}
+
+.btn:hover {
+    background: #ffc300;
+    transform: translateY(-2px);
+}
+
+
+/* Chart Canvas */
+canvas {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/**** upodatedd css and all code */@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .chart-box {
+        min-width: 300px;
+    }
+}

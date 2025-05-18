@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../static/css/admin_dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <h2>All Users</h2>
+
+       
+
+        <!-- Table inside container -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Password</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.password }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Logout Button -->
+        <a href="/logout" class="logout">Logout</a>
+    </div>
+
+    <!-- JavaScript for Table Search and Row Highlight -->
+    <script>
+    // Simple table search
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        var searchValue = this.value.toLowerCase();
+        var tableRows = document.querySelectorAll('table tbody tr');
+
+        tableRows.forEach(function(row) {
+            var username = row.cells[0].textContent.toLowerCase();
+            if (username.includes(searchValue)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+
+    // Optional: Row hover highlight
+    const rows = document.querySelectorAll('table tbody tr');
+    rows.forEach(row => {
+        row.addEventListener('mouseover', () => {
+            row.style.backgroundColor = '#555';
+        });
+        row.addEventListener('mouseout', () => {
+            row.style.backgroundColor = '';
+        });
+    });
+    </script>
+</body>
+</html>

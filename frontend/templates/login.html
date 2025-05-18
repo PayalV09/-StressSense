@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Stress Sense</title>
+    <link rel="stylesheet" href="../static/css/sign-login.css">
+    <script defer src="../static/js/sign-login.js"></script>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="form-box">
+            <h2>Login</h2>
+            <p class="subtitle">Welcome back! Log in to continue.</p>
+            <form action="/login" method="POST">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <p class="switch-link">New here? <a href="/">Create an account</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

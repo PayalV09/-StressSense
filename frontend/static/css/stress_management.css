@@ -1,0 +1,113 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+    color: #333;
+}
+
+/* Header Navigation */
+header {
+    background: #4a69bd;
+    padding: 15px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 8px 12px;
+}
+
+nav ul li a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+/* Main Content */
+main {
+    width: 80%;
+    margin: 40px auto;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    font-size: 32px;
+}
+
+p {
+    font-size: 18px;
+    color: #555;
+}
+
+/* Table Styling */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #4a69bd;
+    color: white;
+    font-size: 18px;
+}
+
+tr:hover {
+    background: #f1f1f1;
+}
+
+/* Buttons */
+.buttons {
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: white;
+    background: #4a69bd;
+    border-radius: 5px;
+    transition: 0.3s;
+    margin: 10px;
+}
+
+.btn:hover {
+    background: #3b5998;
+}
+
+/* Footer */
+footer {
+    margin-top: 40px;
+    padding: 15px 0;
+    text-align: center;
+    background: #4a69bd;
+    color: white;
+}

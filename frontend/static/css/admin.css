@@ -1,0 +1,99 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to right, #005f73, #002c3e);
+    color: #ffffff;
+}
+
+/* Auth Container */
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Form Box */
+.form-box h2 {
+    margin-bottom: 10px;
+    color: #005f73;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #005f73;
+    margin-bottom: 20px;
+}
+
+/* Input Fields */
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #005f73;
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #005f73;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #ffffff;
+    color: #333;
+}
+
+/* Button */
+.btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background: #ffb703;
+    color: #005f73;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #d48c02;
+}
+
+/* Switch Link */
+.switch-link {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #005f73;
+}
+
+.switch-link a {
+    color: #ffb703;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.switch-link a:hover {
+    text-decoration: underline;
+    color: #d48c02;
+}
+input:invalid {
+    border: 1px solid red;
+} 

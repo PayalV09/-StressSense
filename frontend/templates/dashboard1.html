@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Other Stress Trends</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script> <!-- ✅ Added adapter for time -->
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .chart-box {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            backdrop-filter: blur(12px);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .chart-box:hover {
+            transform: scale(1.03);
+        }
+        .chart-title {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            color: #ffc300;
+        }
+        canvas {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Other Stress Trends</h1>
+
+        <div class="grid-container">
+            <!-- Chart 1: Bar Chart -->
+            <div class="chart-box">
+                <canvas id="barChart"></canvas>
+                <p class="chart-title">Stress Level Distribution</p>
+            </div>
+
+            <!-- Chart 2: Pie Chart -->
+            <div class="chart-box">
+                <canvas id="pieChart"></canvas>
+                <p class="chart-title">Stress Category Proportion</p>
+            </div>
+
+            <!-- Chart 3: Scatter Plot -->
+            <div class="chart-box">
+                <canvas id="scatterPlot"></canvas>
+                <p class="chart-title">Stress Level vs Time</p>
+            </div>
+
+            <!-- Chart 4: Mental Map (Radar Chart) -->
+            <div class="chart-box">
+                <canvas id="mentalMap"></canvas>
+                <p class="chart-title">Mental Stress Factors</p>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a href="{{ url_for('dashboard') }}" class="btn">Back to Main Dashboard</a>
+        </div>
+    </div>
+
+    {% if records_json %}
+    <script id="records-data" type="application/json">
+        {{ records_json | tojson | safe }}
+    </script>
+
+    <script>
+        const records = JSON.parse(document.getElementById('records-data').textContent);
+        const timestamps = records.map(r => r.timestamp);
+        const stressLevels = records.map(r => r.stress_level);
+        const stressCategories = records.map(r => r.level);
+
+        console.log("Records:", records);
+        console.log("Timestamps:", timestamps);
+        console.log("Stress Levels:", stressLevels);
+        console.log("Stress Categories:", stressCategories);
+
+        const colorPalette = [
+            'rgba(238, 155, 0, 0.8)',  // golden-orange
+            'rgba(0, 95, 115, 0.8)',   // dark teal
+            'rgba(0, 44, 62, 0.8)',    // deep blue
+            'rgba(255, 195, 0, 0.8)'   // light golden
+        ];
+
+        // Chart 1: Bar Chart
+        new Chart(document.getElementById('barChart'), {
+            type: 'bar',
+            data: {
+                labels: timestamps,
+                datasets: [{
+                    label: 'Stress Level',
+                    data: stressLevels,
+                    backgroundColor: colorPalette[0],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                plugins: { 
+                    legend: { labels: { color: '#ffffff' } }
+                },
+                scales: { 
+                    x: { ticks: { color: '#ffffff' } },
+                    y: { ticks: { color: '#ffffff' } }
+                }
+            }
+        });
+
+        // Chart 2: Pie Chart
+        const categoryCount = {};
+        stressCategories.forEach(level => {
+            categoryCount[level] = (categoryCount[level] || 0) + 1;
+        });
+
+        new Chart(document.getElementById('pieChart'), {
+            type: 'pie',
+            data: {
+                labels: Object.keys(categoryCount),
+                datasets: [{
+                    data: Object.values(categoryCount),
+                    backgroundColor: colorPalette
+                }]
+            },
+            options: {
+                plugins: { 
+                    legend: { labels: { color: '#ffffff' } }
+                }
+            }
+        });
+
+        // Chart 3: Scatter Plot (Stress Level vs Time)
+        new Chart(document.getElementById('scatterPlot'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Stress Level vs Time',
+                    data: timestamps.map((time, index) => ({
+                        x: new Date(time),  // ✅ Correct: give Date object, not getTime()
+                        y: stressLevels[index]
+                    })),
+                    backgroundColor: 'rgba(0, 255, 0, 0.6)',
+                    borderColor: 'rgba(0, 255, 0, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: { 
+                    legend: { labels: { color: '#ffffff' } }
+                },
+                scales: {
+                    x: {
+                        type: 'time', // ✅ Supported now because adapter is added
+                        time: {
+                            unit: 'minute',
+                            tooltipFormat: 'PPpp'
+                        },
+                        ticks: { color: '#ffffff' }
+                    },
+                    y: {
+                        ticks: { color: '#ffffff' }
+                    }
+                }
+            }
+        });
+
+        // Chart 4: Mental Map (Radar Chart)
+        new Chart(document.getElementById('mentalMap'), {
+            type: 'radar',
+            data: {
+                labels: ['Mood', 'Sleep Hours', 'Cups of Coffee/Tea', 'Water Intake', 'Daily Activities'],
+                datasets: [{
+                    label: 'Mental Stress Factors',
+                    data: [3, 4, 5, 2, 3], // Still dummy data (for now)
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { 
+                        labels: { color: '#ffffff' } 
+                    }
+                },
+                scales: {
+                    r: {
+                        ticks: { color: '#ffffff' },
+                        pointLabels: { color: '#ffffff' }
+                    }
+                }
+            }
+        });
+
+    </script>
+    {% endif %}
+</body>
+</html>

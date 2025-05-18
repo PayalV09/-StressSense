@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stress Sense - Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">Stress Sense</div>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        {% if not logged_in %}
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+          <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+        {% else %}
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Welcome to Stress Sense</h1>
+    <p>Your AI-powered companion to manage and monitor stress levels effectively.</p>
+    {% if not logged_in %}
+      <a href="{{ url_for('signup') }}" class="btn">Get Started</a>
+    {% else %}
+      <a href="#" class="btn">Go to Dashboard</a>
+    {% endif %}
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="container">
+    <h2>About Stress Sense</h2>
+    <p>Stress Sense is a comprehensive platform designed to detect and track your stress levels using AI-driven insights. By analyzing your daily habits, mood, and activities, we generate personalized reports and recommendations.</p>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="container">
+    <h2>Contact Us</h2>
+    <p>Email: support@stresssense.com</p>
+    <p>Phone: +1 (555) 123-4567</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Stress Sense. All rights reserved.</p>
+  </footer>
+</body>
+</html>
